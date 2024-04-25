@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import mysql_routes
+from routes import mysql_routes,mongodb_routes
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -7,7 +7,7 @@ app = FastAPI()
 
 
 app.include_router(mysql_routes.router, prefix="/mysql")
-# app.include_router(mongodb_router.router, prefix="/mongodb")
+app.include_router(mongodb_routes.router, prefix="/mongodb")
 
 app.add_middleware(
     CORSMiddleware,

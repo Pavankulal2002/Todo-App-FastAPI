@@ -78,6 +78,8 @@ async function updateTodo(todoId, currentTitle, currentDescription) {
 }
 
 async function deleteTodo(todoId) {
+
+
     const confirmation = confirm("Are you sure you want to delete this todo?");
     if (confirmation) {
         try {
@@ -104,8 +106,8 @@ function displayTodos(todos) {
         todoElement.innerHTML = `
             <strong>${todo.name}</strong>
             <p>${todo.description}</p>
-            <button onclick="updateTodo(${todo.id},'${todo.name}','${todo.description}')">Update</button>
-            <button onclick="deleteTodo(${todo.id})">Delete</button>
+            <button onclick="updateTodo('${todo.id}','${todo.name}','${todo.description}')">Update</button>
+            <button onclick="deleteTodo('${todo.id}')">Delete</button>
         `;
         todosContainer.appendChild(todoElement);
     });
