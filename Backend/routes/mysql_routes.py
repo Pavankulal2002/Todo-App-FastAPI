@@ -33,7 +33,7 @@ def create_todo(todo: todo, db: Session = Depends(get_db)):
 def read_todos(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     query = todos.select().offset(skip).limit(limit)
     result = db.execute(query).fetchall()
-    todos_list = [{"id": row.id, "name": row.name, "description": row.description} for row in result]
+    todos_list = [{"id": row.id, "name": row.name, "description": row.description,"completed":row.completed} for row in result]
     return todos_list
 
 
@@ -86,13 +86,10 @@ def delete_todo(todo_id: int, db: Session = Depends(get_db)):
 
 
 @router.patch("/todos/{todo_id}", response_model=todo)
-def patch_todo(todo_id: int, todo: todo, db: Session = Depends(get_db)):
-    update_query = update(todos).where(todos.c.id == todo_id)
-    if todo.name:
-        update_query = update_query.values(name=todo.name)
-    if todo.description:
-        update_query = update_query.values(description=todo.description)
-    db.execute(update_query)
+def patch_todo(todo: todo, db: Session = Depends(get_db)):
+    update_query = update(todos).where(todos.c.id == todo.id)
+    update_query_1 = update_query.values(completed=todo.completed)
+    db.execute(update_query_1)
     db.commit()
     return todo
 

@@ -31,7 +31,7 @@ async function createTodo() {
     const name = prompt("Enter todo name:");
     const description = prompt("Enter todo description:");
     if (name && description) {
-        const newTodo = { id,name, description };
+        const newTodo = { id,name, description};
         try {
             const response = await fetch(`${baseURL}/${databaseSelect.value}/todos`, {
                 method: 'POST',
@@ -51,14 +51,20 @@ async function createTodo() {
     }
 }
 
-async function updateTodoWithPatch(todoId, currentTitle, currentDescription) {
-    const newTitle = prompt("Enter new title:", currentTitle);
-    const newDescription = prompt("Enter new description:", currentDescription);
-    if (newTitle !== null || newDescription !== null) {
+async function updateTodoWithPatch(todoId, currentTitle, currentDescription,currentCompleted) {
+    let newCompleted;
+    if (currentCompleted === 'true') {
+        newCompleted = 'false';
+    } else {
+        newCompleted = 'true';
+    }
+   
+    
         const updatedFields = {};
         updatedFields.id=todoId
-        if (newTitle !== null) updatedFields.name = newTitle;
-        if (newDescription !== null) updatedFields.description = newDescription;
+        updatedFields.name=currentTitle
+        updatedFields.description=currentDescription
+        updatedFields.completed=newCompleted
         try {
             const response = await fetch(`${baseURL}/${databaseSelect.value}/todos/${todoId}`, {
                 method: 'PATCH',
@@ -75,10 +81,11 @@ async function updateTodoWithPatch(todoId, currentTitle, currentDescription) {
         } catch (error) {
             console.error("Error updating todo:", error);
         }
-    }
+    
 }
 
 async function updateTodoWithPut(todoId, currentTitle, currentDescription) {
+    
     const newTitle = prompt("Enter new title:", currentTitle);
     const newDescription = prompt("Enter new description:", currentDescription);
     if (newTitle !== null && newDescription !== null) {
@@ -120,19 +127,43 @@ async function deleteTodo(todoId) {
     }
 }
 
+// function displayTodos(todos) {
+//     const todosContainer = document.getElementById("todos");
+//     todosContainer.innerHTML = "";
+//     todos.forEach(todo => {
+//         const todoElement = document.createElement("div");
+//         todoElement.classList.add("todo");
+//         todoElement.innerHTML = `
+//             <strong>${todo.name}</strong>
+//             <p>${todo.description}</p>
+//             <button onclick="updateTodoWithPatch('${todo.id}','${todo.name}','${todo.description}','${todo.completed}')">${todo.completed}</button>
+//             <button onclick="updateTodoWithPut('${todo.id}','${todo.name}','${todo.description}')">Update with PUT</button>
+//             <button onclick="deleteTodo('${todo.id}')">Delete</button>
+//         `;
+//         todosContainer.appendChild(todoElement);
+//     });
+// }
+
 function displayTodos(todos) {
     const todosContainer = document.getElementById("todos");
     todosContainer.innerHTML = "";
     todos.forEach(todo => {
         const todoElement = document.createElement("div");
         todoElement.classList.add("todo");
+        if (todo.completed) {
+            todoElement.classList.add("completed");
+        } else {
+            todoElement.classList.add("not-completed");
+        }
+        const completedText = todo.completed ? "Completed" : "Not Completed";
         todoElement.innerHTML = `
             <strong>${todo.name}</strong>
             <p>${todo.description}</p>
-            <button onclick="updateTodoWithPatch('${todo.id}','${todo.name}','${todo.description}')">Update with PATCH</button>
-            <button onclick="updateTodoWithPut('${todo.id}','${todo.name}','${todo.description}')">Update with PUT</button>
-            <button onclick="deleteTodo('${todo.id}')">Delete</button>
+            <button class="btn complete" onclick="updateTodoWithPatch('${todo.id}','${todo.name}','${todo.description}','${todo.completed}')">${completedText}</button>
+            <button  class="btn update"onclick="updateTodoWithPut('${todo.id}','${todo.name}','${todo.description}')">Update</button>
+            <button  class="btn delete" onclick="deleteTodo('${todo.id}')">Delete</button>
         `;
         todosContainer.appendChild(todoElement);
     });
 }
+

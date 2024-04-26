@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Table
-from sqlalchemy.sql.sqltypes import Integer, String
+from sqlalchemy.sql.sqltypes import Integer, String,Boolean
 from databases.mysql import meta, engine
 
 todos = Table(
@@ -11,6 +11,7 @@ todos = Table(
         String(255),
     ),
     Column("description", String(255)),
+    Column("completed",Boolean,default=False)
 )
 
 meta.create_all(engine)

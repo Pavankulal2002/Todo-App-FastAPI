@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
 }
 
 .container {
@@ -11,10 +12,25 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
 }
 
 .options {
     margin-bottom: 20px;
+}
+
+#database {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 16px;
 }
 
 .todos-container {
@@ -26,21 +42,79 @@ body {
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
+    background-color: #ffffff;
 }
 
-.todo button {
-    margin-left: 10px;
+.todo.completed {
+    background-color: #d4edda; /* Green background for completed todos */
 }
+
+.todo.not-completed {
+    background-color: #f8d7da; /* Red background for not completed todos */
+}
+
+
+.todo strong {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    word-wrap: break-word; /* Allow long words to break and wrap */
+}
+
+.todo p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    word-wrap: break-word; /* Allow long words to break and wrap */
+    white-space: normal; /* Allow wrapping of long lines */
+    max-width: 100%; /* Ensure text does not exceed container width */
+}
+
 
 .btn {
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 8px 16px;
     cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s;
 }
 
 .btn:hover {
     background-color: #0056b3;
+}
+
+.btn.delete {
+    background-color: #dc3545; /* Red color for delete button */
+}
+
+.btn.delete:hover {
+    background-color: #c82333;
+}
+
+.btn.update {
+    background-color: #17a2b8; /* Blue color for update button */
+}
+
+.btn.update:hover {
+    background-color: #138496;
+}
+
+
+.btn.complete {
+    background-color: #007bff; /* Blue color for complete button */
+}
+
+/* Change button color based on completion status */
+.todo.completed .btn.complete {
+    background-color: #28a745; /* Green color for completed todo */
+}
+
+.todo.not-completed .btn.complete {
+    background-color: #dc3545; /* Red color for not completed todo */
 }

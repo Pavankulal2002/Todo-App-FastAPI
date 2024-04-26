@@ -26,11 +26,7 @@ async def delete_todos(id :str ):
 @router.patch("/todos/{todo_id}", response_model=Todo)
 async def patch_todo(todo_id: str, todo: Todo):
     update_fields = {}
-    if todo.name:
-        update_fields["name"] = todo.name
-    if todo.description:
-        update_fields["description"] = todo.description
-
+    update_fields["completed"] = todo.completed
     collection.update_one({"_id": ObjectId(todo_id)}, {"$set": update_fields})
     return todo
 
