@@ -1,9 +1,9 @@
 # todo_router.py
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import select,update
 from sqlalchemy.orm import Session
 from databases.mysql import engine
-from schemas.mysql_schema import todo,todoInput
+from schemas.mysql_schema import todo
 from models.mysql_todo import todos
 
 router = APIRouter()
@@ -83,4 +83,17 @@ def delete_todo(todo_id: int, db: Session = Depends(get_db)):
     db.execute(delete_query)
     db.commit()
     return {"message": "Todo deleted successfully"}
+
+
+@router.patch("/todos/{todo_id}", response_model=todo)
+def patch_todo(todo_id: int, todo: todo, db: Session = Depends(get_db)):
+    update_query = update(todos).where(todos.c.id == todo_id)
+    if todo.name:
+        update_query = update_query.values(name=todo.name)
+    if todo.description:
+        update_query = update_query.values(description=todo.description)
+    db.execute(update_query)
+    db.commit()
+    return todo
+
 
